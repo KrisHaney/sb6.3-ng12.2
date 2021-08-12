@@ -1,27 +1,43 @@
-# SbNg12
+# Minimal reproduction repo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+Shows global styles not working in Storybook 6.3 with Angular 12.2
 
-## Development server
+When working (in ng 12.1), buttons in the button story are rotated by 180deg and uppercased
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Steps to reproduce
 
-## Code scaffolding
+### Initialize the project
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`npx sb@next repro`
 
-## Build
+(from [here](https://storybook.js.org/docs/angular/contribute/how-to-reproduce))
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+### Upgrade angular from 11 to 12
 
-## Running unit tests
+`ng update @angular/core@12 @angular/cli@12`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+(from [here](https://update.angular.io/?v=11.0-12.0))
 
-## Running end-to-end tests
+### Install webpack 5 and middleware
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+`yarn add webpack@5 --dev`
 
-## Further help
+`yarn add @storybook/builder-webpack5@next @storybook/manager-webpack5@next --dev`
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Add to .storybook/main.js
+```js
+module.exports = {
+  core: {
+    builder: 'webpack5',
+  }
+};
+```
+
+(from [here](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#angular-12-upgrade))
+
+### Add global styles
+
+Create `.storybook/global-styles.scss` and add some test styles
+
+Add `import './global-styles.scss';` to `.storybook/preview.js`
+

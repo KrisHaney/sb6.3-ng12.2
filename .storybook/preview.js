@@ -1,5 +1,8 @@
 import { setCompodocJson } from "@storybook/addon-docs/angular";
 import docJson from "../documentation.json";
+
+require('!style-loader!css-loader!sass-loader!./global-styles.scss');
+
 setCompodocJson(docJson);
 
 export const parameters = {
